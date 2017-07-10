@@ -1,11 +1,11 @@
 const
   Koa = require('koa'),
   app = new Koa(),
-  bodyParser = require('koa-bodyparser');
+  bodyParser = require('koa-bodyparser'),
+  config = require('./config')();
 
-const PORT = 3001;
 
-app.use(require('./routes'));
+app.use(require('./admin-routes'));
 
 app.use(bodyParser());
-app.listen(PORT);
+app.listen(config.PORT);
