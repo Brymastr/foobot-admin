@@ -27,11 +27,14 @@ router.get('/subscriptions', async ctx => {
 });
 
 router.get('/config', async ctx => {
-  const token = await request.get(`${config.TELEGRAM_SERVICE}/token`);
+  const urls = [`${config.TELEGRAM_SERVICE}/token`, `${config.TELEGRAM_SERVICE}/url`];
+
+  const [token, url] = await Promise.all(urls.map(request));
 
   ctx.body = {
     telegram: {
-      token
+      token,
+      url
     }
   }
 });
