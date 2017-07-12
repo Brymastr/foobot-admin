@@ -27,8 +27,9 @@ router.get('/conversationMessages/:converstion_id', async ctx => {
   ctx.body = messages;
 });
 
-router.get('/subscriptions', async ctx => {
-  ctx.body = 'summary of subscriptions'
+router.get('/allUsers', async ctx => {
+  const users = await request.get(`${config.USERS_SERVICE}`);
+  ctx.body = users;
 });
 
 router.get('/config', async ctx => {
@@ -49,7 +50,8 @@ router.get('/config', async ctx => {
 
 router.post('/clean', async ctx => {
   const urls = [
-    `${config.MESSAGES_SERVICE}`
+    `${config.MESSAGES_SERVICE}`,
+    `${config.USERS_SERVICE}`
   ];
 
   await Promise.all(urls.map(u => request.del(u)));
