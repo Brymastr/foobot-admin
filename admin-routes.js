@@ -48,6 +48,30 @@ router.get('/config', async ctx => {
   }
 });
 
+/**
+ * Given a user_id and a platform, send a message using that user's platform id for the specified platform
+ * ex. user_id: 123, platform: telegram  =>  send a message to telegram using the users telegram platform id
+ */
+router.post('/sendMessage', async ctx => {
+  const { user_id, platform, message } = ctx.request.body;
+  const platform_id = await request.get(`${config.USERS_SERVICE}/${user_id}/${platform}`);
+  let service;
+  switch(platform) {
+    case 'telegram':
+      service = config.TELEGRAM_SERVICE
+      break;
+    default:
+      ctx.status = 400;
+      ctx.body = `platform ${platform} is invalid`;
+      return;
+  }
+  const json = {
+    id: user_id,
+    message
+  };
+  ctx.body = await request.post(`${service}/sendMessage`, { json });
+});
+
 router.post('/clean', async ctx => {
   const urls = [
     `${config.MESSAGES_SERVICE}`,
