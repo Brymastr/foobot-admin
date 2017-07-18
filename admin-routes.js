@@ -92,4 +92,9 @@ router.post('/clean/users', async ctx => {
   ctx.body = 'Users dabatase cleaned';
 });
 
+router.post('/resetTelegramUrl', async ctx => {
+  const newUrl = await request.post(`${config.TELEGRAM_SERVICE}/resetUrl`);
+  ctx.body = `Telegram URL reset to ${newUrl}`;
+});
+
 module.exports = router.routes();
