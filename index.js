@@ -5,7 +5,7 @@ const
   config = require('./config')();
 
 
-app.use(require('./admin-routes'));
+app.use(require('./routes'));
 
 app.use(bodyParser());
 app.listen(config.PORT);

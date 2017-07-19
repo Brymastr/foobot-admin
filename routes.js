@@ -79,17 +79,17 @@ router.post('/clean', async ctx => {
   ];
 
   await Promise.all(urls.map(u => request.del(u)));
-  ctx.body = 'All dabatases cleaned';
+  ctx.body = 'All databases cleaned';
 });
 
 router.post('/clean/messages', async ctx => {
   await request.del(config.MESSAGES_SERVICE);
-  ctx.body = 'Messages dabatase cleaned';
+  ctx.body = 'Messages database cleaned';
 });
 
 router.post('/clean/users', async ctx => {
   await request.del(config.USERS_SERVICE);
-  ctx.body = 'Users dabatase cleaned';
+  ctx.body = 'Users database cleaned';
 });
 
 router.post('/resetTelegramUrl', async ctx => {
