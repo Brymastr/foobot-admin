@@ -35,15 +35,17 @@ router.get('/allUsers', async ctx => {
 router.get('/config', async ctx => {
   const urls = [
     `${config.TELEGRAM_SERVICE}/token`,
-    `${config.TELEGRAM_SERVICE}/url`
+    `${config.TELEGRAM_SERVICE}/url`,
+    `${config.TELEGRAM_SERVICE}/name`
   ];
 
-  const [token, url] = await Promise.all(urls.map(request));
+  const [token, url, name] = await Promise.all(urls.map(request));
 
   ctx.body = {
     telegram: {
       token,
-      url
+      url,
+      name
     }
   }
 });
