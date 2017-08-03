@@ -33,21 +33,31 @@ router.get('/allUsers', async ctx => {
 });
 
 router.get('/config', async ctx => {
-  const urls = [
-    `${config.TELEGRAM_SERVICE}/token`,
-    `${config.TELEGRAM_SERVICE}/url`,
-    `${config.TELEGRAM_SERVICE}/name`
-  ];
-
-  const [token, url, name] = await Promise.all(urls.map(request));
-
-  ctx.body = {
-    telegram: {
-      token,
-      url,
-      name
-    }
+  const configuration = {};
+  
+  try {
+    const urls = [
+      `${config.TELEGRAM_SERVICE}/token`,
+      `${config.TELEGRAM_SERVICE}/url`,
+      `${config.TELEGRAM_SERVICE}/name`
+    ];
+    const [token, url, name] = await Promise.all(urls.map(request));
+    configuration.telegram = { token, url, name };
+  } catch(err) {
+    console.log(`Telegram service isn't running`);
   }
+
+  try {
+    const urls = [
+      `${config.GOOGLE_HOME_SERVICE}/url`    
+    ];
+    const [url] = await Promise.all(urls.map(request));
+    configuration.google_home = { url };
+  } catch(err) {
+    console.log(`Google Home service isn't running`);
+  }
+
+  ctx.body = configuration;
 });
 
 /**
